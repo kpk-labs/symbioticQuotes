@@ -1,0 +1,3 @@
+[submodule "foundrytest/lib/morpho-blue"]
+	path = foundrytest/lib/morpho-blue
+	url = https://github.com/morpho-org/morpho-blue

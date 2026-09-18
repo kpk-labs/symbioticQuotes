@@ -24,17 +24,30 @@ streamlit run app.py
 python tests/test_model.py
 ```
 
-## Deploy (Streamlit Community Cloud)
+## Deploy (KPK Railway, per the Vibe Coded Apps Guidelines)
 
-1. Push this repo to GitHub (already at `kpk-labs/symbioticQuotes`), `app.py` at the root.
-2. Deploy from the Streamlit Cloud dashboard, pointing at `app.py`.
-3. In the app's Secrets, set:
+This repo ships as a Docker container so it can run as its own service in the shared KPK Labs
+Railway project, reachable internally over Twingate rather than a public URL:
+
+```bash
+docker build -t symbiotic-quotes .
+docker run -p 8501:8501 -e PORT=8501 -e KPKUSERNAME=... -e KPKPASSWORD=... symbiotic-quotes
+```
+
+On Railway: connect this repo, set `KPKUSERNAME` / `KPKPASSWORD` in the service's Variables (never
+in the repo), and auto-deploy from `main` - engineering handles the Twingate-internal domain. Ask in
+#curation or ping João for the initial Railway hookup.
+
+### Alternative: Streamlit Community Cloud
+
+Works too if you'd rather not wait on the Railway hookup, but it requires the repo to be public and
+Streamlit's GitHub App to be approved for the `kpk-labs` org - the thing that's currently stuck.
+1. Deploy from the Streamlit Cloud dashboard, pointing at `app.py`.
+2. In the app's Secrets (TOML, so values need quotes):
    ```toml
    KPKUSERNAME = "..."
    KPKPASSWORD = "..."
    ```
-4. Restrict viewers by email in Streamlit Cloud if this shouldn't be publicly reachable - nothing
-   on the page is secret (all sources are public), so that's a preference, not a requirement.
 
 ## Layout
 
